@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ButtonComponent } from "../button/button.component";
 
 @Component({
   selector: 'app-window',
@@ -6,20 +7,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./window.component.css'],
   styles: [`
     button {margin: 0; width: 25px; height: 25px; padding: 0;}
-    /*button.btn {background-color: white;}
-    button.bomb {background-color: red;}*/
+    input {margin: 0; width: 25px; height: 25px; padding: 0;}
+    .btn {background-color: white;}
+    .bomb {background-color: red;}
+    .play{text-align: center; padding: 10px 10px 10px 10px; height: 50px; width: 75px;}
     `],
-  template: `
+  template:`
     <div>
+      <button class="play" (click)="newGame()">New Game</button>
       <table align="center">
         <tr *ngFor="let i of [0,1,2,3,4,5,6,7]">
           <td *ngFor="let j of [0,1,2,3,4,5,6,7]">
             <div *ngIf="placeBomb(i,j)">
-              <button class="bomb" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}"></button>
+              <input type="button" class="bomb" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}">
             </div>
             <div *ngIf="!placeBomb(i,j)">
               <!-- <button class="btn" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}"></button>-->
-              <button class="btn" (click)="check(i,j)"></button>
+              <input type="button" value="" id="{{i}}{{j}}" class="btn" (click)="onClick($event,i,j)">
             </div>
           </td>
         </tr>
@@ -35,6 +39,7 @@ export class WindowComponent implements OnInit {
   bombsArray = [];
   indexArray = Array();
   buttonColor = '#FFFFFF';
+ // num = '';
   isActive = false;
   // isPlaying = true;
   // paragraph = `<p>some text</p>`;
@@ -46,6 +51,18 @@ export class WindowComponent implements OnInit {
 
   ngOnInit() {
     this.placeBombs();
+  }
+
+  onClick(event, x: number, y: number) {
+
+    var target = event.target;
+    var idAttr = target.attributes.id;
+    var value = idAttr.nodeValue;
+    var valueAttr = target.attributes.value;
+    var val = valueAttr.nodeValue;
+    // alert(val);
+    alert(value);
+    this.check(x,y);
   }
 
   placeBombs() {
@@ -99,6 +116,9 @@ export class WindowComponent implements OnInit {
         // alert('BOOM');
         break;
       }
+     /* else {
+        this.showCell(x,y);
+      }*/
     }
   }
 
@@ -116,6 +136,24 @@ export class WindowComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  newGame() {
+    this.ngOnInit();
+    this.buttonColor = '#ffffff';
+    // this.num = '';
+  }
+
+  showCell(x: number, y:number) {
+    let bombCounter = 0;
+    for(let i = x-1; i < x+1; i++){
+      for(let j = y-1; j < y+1; j++){
+        if (i >= 0 && j >= 0 && (i != x || j != y)) {
+          bombCounter++;
+        }
+      }
+    }
+    //this.num = bombCounter;
   }
 
   //createButton(board: any, idxArr: any) {
