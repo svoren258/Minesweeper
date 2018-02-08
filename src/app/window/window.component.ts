@@ -5,9 +5,8 @@ import { ButtonComponent } from "../button/button.component";
   selector: 'app-window',
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css'],
-  directives:[ButtonComponent],
   styles: [`
-    button {margin: 0; width: 25px; height: 25px; padding: 0;}
+    /*button {margin: 0; width: 25px; height: 25px; padding: 0;}*/
     input {margin: 0; width: 25px; height: 25px; padding: 0;}
     .btn {background-color: white;}
     .bomb {background-color: red;}
@@ -16,14 +15,15 @@ import { ButtonComponent } from "../button/button.component";
   template:`
     <div>
       <button class="play" (click)="newGame()">New Game</button>
-      <table align="center">
+      <table align="center" border="1">
         <tr *ngFor="let i of [0,1,2,3,4,5,6,7]">
           <td *ngFor="let j of [0,1,2,3,4,5,6,7]">
             <div *ngIf="placeBomb(i,j)">
-              <input type="button" class="bomb" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}">
+              <app-button [bomb]="true" [newGame]="resetValue" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
+<!--              <input type="button" class="bomb" (contextmenu)="onRightClick($event)" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}">-->
             </div>
             <div *ngIf="!placeBomb(i,j)">
-              <app-button [newGame]="resetValue" [bombsArray]="bombsArray" [x]="i" [y]="j" ></app-button>
+              <app-button [bomb]="false" [newGame]="resetValue" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
               <!-- <button class="btn" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}"></button>-->
 <!--              <input type="button" value="" id="{{i}}{{j}}" class="btn" (click)="onClick($event,i,j)">-->
             </div>
@@ -42,6 +42,7 @@ export class WindowComponent implements OnInit {
   indexArray = Array();
   buttonColor = '#FFFFFF';
   resetValue;
+  clicked = false;
  // num = '';
   isActive = false;
   // isPlaying = true;
@@ -55,6 +56,11 @@ export class WindowComponent implements OnInit {
   ngOnInit() {
     this.placeBombs();
   }
+
+/*  onRightClick() {
+    this.buttonColor = 'yellow';
+    return false;
+  }*/
 
 /*  onClick(event, x: number, y: number) {
     var target = event.target;
@@ -106,24 +112,21 @@ export class WindowComponent implements OnInit {
     return false;
   }
 
-  check(x: number, y: number) {
+/*  check(x: number, y: number) {
     const couple = [x, y];
     alert(couple);
 //     alert(y);
-    for (let index = 0; index < this.bombsArray.length; index++) {
+   this.clicked = true;
+    /!*for (let index = 0; index < this.bombsArray.length; index++) {
       if (this.equals(this.bombsArray[index], couple)) {
-        this.buttonColor = '#000000';
+        this.buttonColor = 'red';
         // this.isPlaying = false;
       //  this.isActive = true;
         // alert('BOOM');
         break;
       }
-      else {
-        //this.showCell(x,y);
-        //this.buttonColor ='red';
-      }
-    }
-  }
+    }*!/
+  }*/
 
   contains(arr: any, item: number) {
     for (let idx = 0; idx < arr.length; idx++) {

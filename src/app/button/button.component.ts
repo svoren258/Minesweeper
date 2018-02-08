@@ -6,8 +6,9 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./button.component.css'],
   styles:[`
     input {margin: 0; width: 25px; height: 25px; padding: 0;}
-    .btn {background-color: white;}`],
-  template:`<input id="" type="button" value=" {{newGame ? '' : value}} " class="btn" (click)="onClick($event,x,y)">`
+    .btn {background-color: white;}
+    .bomb {background-color: red;}`],
+  template:`<input id="" type="button" value=" {{newGame ? '' : value}} " class="btn" (contextmenu)="onRightClick($event)" (click)="onClick($event,x,y)" [ngStyle]="{'background-color': setColor()}">`
 })
 export class ButtonComponent implements OnInit {
 
@@ -15,15 +16,43 @@ export class ButtonComponent implements OnInit {
  @Input() y;
  @Input() bombsArray = [];
  @Input() newGame;
- value;
+ @Input() bomb;
+  value;
+  buttonColor = '#ffffff';
 
   constructor() { }
 
   ngOnInit() {
+  }
 
+  setColor() {
+    if (this.newGame) {
+      this.buttonColor = '#ffffff';
+    }
+    return this.buttonColor;
+  }
+
+  onRightClick() {
+    if (this.buttonColor === 'yellow') {
+      this.buttonColor = 'white';
+    }
+    else {
+      this.buttonColor = 'yellow';
+    }
+    return false;
   }
 
   onClick(event, x: number, y: number) {
+   if (this.buttonColor === 'yellow') {
+     return;
+   }
+
+   if (this.bomb) {
+     this.buttonColor = 'red';
+     alert('BOOM!');
+     return;
+   }
+
     var target = event.target;
     var idAttr = target.attributes.id;
    // alert(x);
@@ -48,9 +77,9 @@ export class ButtonComponent implements OnInit {
         }
       }
     }
-    if (bombCounter === 0) {
+    /*if (bombCounter === 0) {
       return '';
-    }
+    }*/
     return bombCounter.toString();
     //alert(bombCounter);
   }
