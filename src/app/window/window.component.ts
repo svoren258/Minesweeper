@@ -11,6 +11,7 @@ import { ButtonComponent } from "../button/button.component";
     .btn {background-color: white;}
     .bomb {background-color: red;}
     .play{text-align: center; padding: 10px 10px 10px 10px; height: 50px; width: 75px;}
+    app-button {background-color: red;}
     `],
   template:`
     <div>
@@ -19,11 +20,11 @@ import { ButtonComponent } from "../button/button.component";
         <tr *ngFor="let i of [0,1,2,3,4,5,6,7]">
           <td *ngFor="let j of [0,1,2,3,4,5,6,7]">
             <div *ngIf="placeBomb(i,j)">
-              <app-button [bomb]="true" [newGame]="resetValue" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
+              <app-button [bomb]="true" [cellArray]="cellArray" [newGame]="resetValue" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
 <!--              <input type="button" class="bomb" (contextmenu)="onRightClick($event)" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}">-->
             </div>
             <div *ngIf="!placeBomb(i,j)">
-              <app-button [bomb]="false" [newGame]="resetValue" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
+              <app-button [bomb]="false" [cellArray]="cellArray" [newGame]="resetValue" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
               <!-- <button class="btn" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}"></button>-->
 <!--              <input type="button" value="" id="{{i}}{{j}}" class="btn" (click)="onClick($event,i,j)">-->
             </div>

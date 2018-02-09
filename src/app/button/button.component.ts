@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-button',
@@ -8,7 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
     input {margin: 0; width: 25px; height: 25px; padding: 0;}
     .btn {background-color: white;}
     .bomb {background-color: red;}`],
-  template:`<input id="" type="button" value=" {{newGame ? '' : value}} " class="btn" (contextmenu)="onRightClick($event)" (click)="onClick($event,x,y)" [ngStyle]="{'background-color': setColor()}">`
+  template:`<input id="{{x}},{{y}}" type="button" value=" {{newGame ? '' : value}} " class="{{bomb ? 'bomb' : 'btn'}}" (contextmenu)="onRightClick($event)" (click)="onClick($event,x,y)" [ngStyle]="{'background-color': setColor()}">`
 })
 export class ButtonComponent implements OnInit {
 
@@ -17,17 +18,24 @@ export class ButtonComponent implements OnInit {
  @Input() bombsArray = [];
  @Input() newGame;
  @Input() bomb;
+ @Input() cellArray = [];
   value;
   buttonColor = '#ffffff';
 
   constructor() { }
 
   ngOnInit() {
+
   }
 
   setColor() {
+    let cell;
+    this.buttonColor = '#ffffff';
     if (this.newGame) {
-      this.buttonColor = '#ffffff';
+      for(let idx = 0; idx < this.cellArray.length; idx++) {
+        cell = document.getElementById(this.cellArray[idx]);
+        cell.style.backgroundColor = this.buttonColor;
+      }
     }
     return this.buttonColor;
   }
@@ -48,16 +56,23 @@ export class ButtonComponent implements OnInit {
    }
 
    if (this.bomb) {
-     this.buttonColor = 'red';
-     alert('BOOM!');
+    for(let idx = 0; idx < this.bombsArray.length; idx++) {
+      // alert('for');
+      // alert(this.bombsArray[idx]);
+      let bombElem = document.getElementById(this.bombsArray[idx]);
+      bombElem.style.backgroundColor = 'red';
+    }
+
+     alert('YOU LOOSE!');
      return;
    }
 
+   // alert(this.getIdAttrValue(event));
     var target = event.target;
     var idAttr = target.attributes.id;
-   // alert(x);
-    idAttr.nodeValue = x.toString()+y.toString();
+   // idAttr.nodeValue = x.toString()+y.toString();
     alert(idAttr.nodeValue);
+
 //     var value = idAttr.nodeValue;
     var valueAttr = target.attributes.value;
 //     var value = valueAttr.nodeValue;
