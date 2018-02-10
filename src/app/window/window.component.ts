@@ -15,11 +15,11 @@ import { ButtonComponent } from "../button/button.component";
         <tr *ngFor="let i of [0,1,2,3,4,5,6,7]">
           <td *ngFor="let j of [0,1,2,3,4,5,6,7]">
             <div *ngIf="placeBomb(i,j)">
-              <app-button [bomb]="true" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
+              <app-button [bomb]="true" [(shownButtons)]="shownButtons" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
 <!--              <input type="button" class="bomb" (contextmenu)="onRightClick($event)" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}">-->
             </div>
             <div *ngIf="!placeBomb(i,j)">
-              <app-button [bomb]="false" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
+              <app-button [bomb]="false" [(shownButtons)]="shownButtons" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
               <!-- <button class="btn" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}"></button>-->
 <!--              <input type="button" value="" id="{{i}}{{j}}" class="btn" (click)="onClick($event,i,j)">-->
             </div>
@@ -33,6 +33,7 @@ export class WindowComponent implements OnInit {
   width = 8;
   height = 8;
   minesCount = 11;
+  shownButtons = [];
   cellArray = [];
   bombsArray = [];
   indexArray = Array();
@@ -95,7 +96,10 @@ export class WindowComponent implements OnInit {
         this.bombsArray.push(this.cellArray[randomIdx]);
       }
     }
-    alert(this.bombsArray);
+
+
+
+    // alert(this.bombsArray);
    // this.createButton(this.cellArray, this.indexArray);
   }
 

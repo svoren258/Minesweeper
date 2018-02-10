@@ -22,7 +22,7 @@ export class ButtonComponent implements OnInit {
  @Input() newGame;
   value;
   buttonColor = 'white';
-  shownButtons = [];
+ @Input() shownButtons = [];
 
   constructor() {
   }
@@ -86,9 +86,44 @@ export class ButtonComponent implements OnInit {
     valueAttr.nodeValue = this.showCell(x,y);
 
     //  this.value = valueAttr.nodeValue;
+    this.evaluateGame();
+  }
+
+  evaluateGame() {
+    let newArray = []
+    alert('evaluate');
+    let found = false;
+    for(let idx = 0; idx < this.cellArray.length; idx++) {
+      if (this.isBomb(this.cellArray[idx][0], this.cellArray[idx][1])) {
+        continue;
+      }
+      else {
+        newArray.push(this.cellArray[idx]);
+      }
+    }
+    alert(newArray);
+    alert(this.shownButtons);
+    //alert(this.shownButtons);
+    for(let idx1 = 0; idx1 < newArray.length; idx1++) {
+      for(let idx2 = 0; idx2 < this.shownButtons.length; idx2++) {
+        if (this.equals(newArray[idx1], this.shownButtons[idx2])){
+          if (found) {
+            continue;
+          }
+          found = true;
+        }
+      }
+      if (found) {
+        found = false;
+      }
+      else {return;}
+    }
+    alert('YOU WIN!');
+    return;
   }
 
   showCell(x: number, y:number) {
+    let couple = [x,y];
     let bombCounter = 0;
     for(let i = x-1; i <= x+1; i++){
       for(let j = y-1; j <= y+1; j++){
@@ -106,6 +141,11 @@ export class ButtonComponent implements OnInit {
       this.showCells(x,y);
       //return '';
     }
+/*    if (!this.wasShown((x,y))) {
+      let couple = [x,y];
+      this.shownButtons.push(couple);
+    }*/
+    this.shownButtons.push(couple);
     return bombCounter.toString();
     //alert(bombCounter);
   }
