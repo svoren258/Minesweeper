@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { ButtonComponent } from "../button/button.component";
 
 @Component({
@@ -6,25 +6,20 @@ import { ButtonComponent } from "../button/button.component";
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css'],
   styles: [`
-    /*button {margin: 0; width: 25px; height: 25px; padding: 0;}*/
-    input {margin: 0; width: 25px; height: 25px; padding: 0;}
-    .btn {background-color: white;}
-    .bomb {background-color: red;}
     .play{text-align: center; padding: 10px 10px 10px 10px; height: 50px; width: 75px;}
-    app-button {background-color: red;}
     `],
   template:`
     <div>
-      <button class="play" (click)="newGame()">New Game</button>
+      <button class="play" (click)="refresh()">New Game</button>
       <table align="center" border="1">
         <tr *ngFor="let i of [0,1,2,3,4,5,6,7]">
           <td *ngFor="let j of [0,1,2,3,4,5,6,7]">
             <div *ngIf="placeBomb(i,j)">
-              <app-button [bomb]="true" [cellArray]="cellArray" [newGame]="resetValue" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
+              <app-button [bomb]="true" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
 <!--              <input type="button" class="bomb" (contextmenu)="onRightClick($event)" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}">-->
             </div>
             <div *ngIf="!placeBomb(i,j)">
-              <app-button [bomb]="false" [cellArray]="cellArray" [newGame]="resetValue" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
+              <app-button [bomb]="false" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
               <!-- <button class="btn" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}"></button>-->
 <!--              <input type="button" value="" id="{{i}}{{j}}" class="btn" (click)="onClick($event,i,j)">-->
             </div>
@@ -41,15 +36,18 @@ export class WindowComponent implements OnInit {
   cellArray = [];
   bombsArray = [];
   indexArray = Array();
-  buttonColor = '#FFFFFF';
-  resetValue;
+  // buttonColor = '#FFFFFF';
+  resetValue = false;
   clicked = false;
  // num = '';
   isActive = false;
+
   // isPlaying = true;
   // paragraph = `<p>some text</p>`;
   // button = `<button class="btn" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}"></button>`;
   // button = 'x';
+
+
 
   constructor() {
   }
@@ -85,16 +83,18 @@ export class WindowComponent implements OnInit {
 //        alert(this.cellArray.length);
       }
     }
+
+    if (this.indexArray) {
+      this.indexArray = [];
+      this.bombsArray = [];
+    }
     while (this.indexArray.length < this.minesCount) {
       randomIdx = Math.floor(Math.random() * 64);
       if (!this.contains(this.indexArray, randomIdx)) {
         this.indexArray.push(randomIdx);
         this.bombsArray.push(this.cellArray[randomIdx]);
-        // isBomb = true;
       }
-
     }
-
     alert(this.bombsArray);
    // this.createButton(this.cellArray, this.indexArray);
   }
@@ -145,11 +145,8 @@ export class WindowComponent implements OnInit {
     return false;
   }
 
-  newGame() {
-    this.ngOnInit();
-    this.buttonColor = '#ffffff';
-    this.resetValue = true;
-    // this.num = '';
+  refresh(): void {
+    window.location.reload();
   }
 /*
   showCell(x: number, y:number) {
