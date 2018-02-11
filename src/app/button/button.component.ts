@@ -24,7 +24,7 @@ export class ButtonComponent implements OnInit {
 
   }
 
-  onRightClick(event, x, y) {
+  onRightClick(event) {
     let target = event.target;
     let style = target.attributes.style;
     let styleVal = style.nodeValue;
