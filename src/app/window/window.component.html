@@ -1,10 +1,10 @@
-<!--<div>
-  <table class="board" align="center">
+<div>
+  <button class="play" (click)="refresh()">New Game</button>
+  <table align="center" border="1">
     <tr *ngFor="let i of [0,1,2,3,4,5,6,7]">
       <td *ngFor="let j of [0,1,2,3,4,5,6,7]">
-        <button (click)="check(i,j)"></button>
+        <app-button [bomb]="placeBomb(i,j)" [(shownButtons)]="shownButtons" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
       </td>
     </tr>
   </table>
 </div>
--->

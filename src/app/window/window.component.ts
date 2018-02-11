@@ -4,29 +4,21 @@ import { ButtonComponent } from "../button/button.component";
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html',
-  styleUrls: ['./window.component.css'],
+  styleUrls: ['./window.component.css']/*
   styles: [`
     .play{text-align: center; padding: 10px 10px 10px 10px; height: 50px; width: 75px;}
-    `],
-  template:`
+    `],*/
+/*  template:`
     <div>
       <button class="play" (click)="refresh()">New Game</button>
       <table align="center" border="1">
         <tr *ngFor="let i of [0,1,2,3,4,5,6,7]">
           <td *ngFor="let j of [0,1,2,3,4,5,6,7]">
-            <div *ngIf="placeBomb(i,j)">
-              <app-button [bomb]="true" [(shownButtons)]="shownButtons" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
-<!--              <input type="button" class="bomb" (contextmenu)="onRightClick($event)" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}">-->
-            </div>
-            <div *ngIf="!placeBomb(i,j)">
-              <app-button [bomb]="false" [(shownButtons)]="shownButtons" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
-              <!-- <button class="btn" (click)="check(i,j)" [ngStyle]="{'background-color': buttonColor}"></button>-->
-<!--              <input type="button" value="" id="{{i}}{{j}}" class="btn" (click)="onClick($event,i,j)">-->
-            </div>
+            <app-button [bomb]="placeBomb(i,j)" [(shownButtons)]="shownButtons" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
           </td>
         </tr>
       </table>
-    </div>`
+    </div>`*/
 })
 
 export class WindowComponent implements OnInit {
@@ -99,7 +91,7 @@ export class WindowComponent implements OnInit {
 
 
 
-    // alert(this.bombsArray);
+   // alert(this.bombsArray);
    // this.createButton(this.cellArray, this.indexArray);
   }
 
