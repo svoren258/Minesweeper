@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { WindowComponent } from './window/window.component';
 import { ButtonComponent } from './button/button.component';
+import { WindowService } from './window.service';
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { ButtonComponent } from './button/button.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [WindowService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

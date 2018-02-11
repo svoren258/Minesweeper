@@ -8,9 +8,14 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Minesweeper';
 
+  constructor() {
+
+  }
+
   public reset: any[] = [{}];
 
-  public onRecreate() {
+  public newGame() {
     this.reset[0] = {};
   }
+
 }

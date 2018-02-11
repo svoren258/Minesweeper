@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class WindowComponent implements OnInit {
-  width = 8;
-  height = 8;
-  minesCount = 11;
+
+  //global variables declaration
+  width = Array.from(new Array(8), (x,i) => i+1);
+  height = Array.from(new Array(8), (x,i) => i+1);
+  minesCount = 10;
   shownButtons = [];
   cellArray = [];
   bombsArray = [];
@@ -22,10 +24,11 @@ export class WindowComponent implements OnInit {
     this.placeBombs();
   }
 
+
   placeBombs() {
     let randomIdx;
-    for (let x = 0; x < this.width; x++) {
-      for (let y = 0; y < this.height; y++) {
+    for (let x = 1; x <= this.width.length; x++) {
+      for (let y = 1; y <= this.height.length; y++) {
         const couple = [x, y];
         this.cellArray.push(couple);
       }
@@ -37,7 +40,7 @@ export class WindowComponent implements OnInit {
     }
 
     while (this.indexArray.length < this.minesCount) {
-      randomIdx = Math.floor(Math.random() * 64);
+      randomIdx = Math.floor(Math.random() * (this.height.length*this.width.length));
       if (!this.contains(this.indexArray, randomIdx)) {
         this.indexArray.push(randomIdx);
         this.bombsArray.push(this.cellArray[randomIdx]);

@@ -12,6 +12,8 @@ export class ButtonComponent implements OnInit {
 
   @Input() x;
   @Input() y;
+  @Input() width;
+  @Input() height;
   @Input() bombsArray;
   @Input() bomb;
   @Input() cellArray;
@@ -21,7 +23,6 @@ export class ButtonComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   onRightClick(event) {
@@ -123,7 +124,7 @@ export class ButtonComponent implements OnInit {
     let bombCounter = 0;
     for(let i = x-1; i <= x+1; i++){
       for(let j = y-1; j <= y+1; j++){
-        if (i >= 0 && j >= 0 && i < 8 && j < 8 && (i != x || j != y)) {
+        if (i > 0 && j > 0 && i <= this.width && j <= this.height && (i != x || j != y)) {
           if (this.isBomb(i,j)){
             bombCounter++;
           }
@@ -142,7 +143,7 @@ export class ButtonComponent implements OnInit {
     let retVal;
     for(let i = x-1; i <= x+1; i++) {
       for (let j = y - 1; j <= y + 1; j++) {
-        if (i >= 0 && j >= 0 && i < 8 && j < 8 && (i != x || j != y)) {
+        if (i > 0 && j > 0 && i <= this.width && j <= this.height && (i != x || j != y)) {
           let couple = [i,j];
           if(this.wasShown(i,j)) {
             continue;
