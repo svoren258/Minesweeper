@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Minesweeper';
+
+  public reset: any[] = [{}];
+
+  public onRecreate() {
+    this.reset[0] = {};
+  }
 }
