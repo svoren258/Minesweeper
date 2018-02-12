@@ -9,21 +9,21 @@ import { Component, OnInit } from '@angular/core';
 export class WindowComponent implements OnInit {
 
   //global variables declaration
+  minesCount = 10;
   width = Array.from(new Array(8), (x,i) => i+1);
   height = Array.from(new Array(8), (x,i) => i+1);
-  minesCount = 10;
   shownButtons = [];
   cellArray = [];
   bombsArray = [];
-  indexArray = Array();
+  indexArray = [];
 
   constructor() {
+
   }
 
   ngOnInit() {
     this.placeBombs();
   }
-
 
   placeBombs() {
     let randomIdx;

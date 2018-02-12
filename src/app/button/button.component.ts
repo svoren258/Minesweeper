@@ -5,11 +5,11 @@ import {Component, Input, OnInit} from '@angular/core';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css']
 })
+
 export class ButtonComponent implements OnInit {
 
   //global variables declarations
   bgImg = 'https://raw.githubusercontent.com/svoren258/Minesweeper/master/blank.gif';
-
   @Input() x;
   @Input() y;
   @Input() width;
@@ -23,6 +23,11 @@ export class ButtonComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.shownButtons.length > 0) {
+      for ( let idx = 0; idx < this.shownButtons.length; idx++) {
+        this.showCell(this.shownButtons[idx][0], this.shownButtons[idx][1]);
+      }
+    }
   }
 
   onRightClick(event) {
@@ -94,28 +99,15 @@ export class ButtonComponent implements OnInit {
 
   evaluateGame() {
     let newArray = [];
-    let found = false;
     for(let idx = 0; idx < this.cellArray.length; idx++) {
       if (!this.isBomb(this.cellArray[idx][0], this.cellArray[idx][1])) {
         newArray.push(this.cellArray[idx]);
       }
     }
 
-    for(let idx1 = 0; idx1 < newArray.length; idx1++) {
-      for(let idx2 = 0; idx2 < this.shownButtons.length; idx2++) {
-        if (this.equals(newArray[idx1], this.shownButtons[idx2])){
-          if (found) {
-            continue;
-          }
-          found = true;
-        }
-      }
-      if (found) {
-        found = false;
-      }
-      else {return;}
+    if (this.areEqualArrays(newArray, this.shownButtons)) {
+      alert('YOU WIN!');
     }
-    alert('YOU WIN!');
     return;
   }
 
@@ -178,5 +170,24 @@ export class ButtonComponent implements OnInit {
 
   equals(arr1: any, arr2: any) {
     return arr1[0] === arr2[0] && arr1[1] === arr2[1];
+  }
+
+  areEqualArrays(arr1: any, arr2: any) {
+    let found = false;
+    for(let idx1 = 0; idx1 < arr1.length; idx1++) {
+      for(let idx2 = 0; idx2 < arr2.length; idx2++) {
+        if (this.equals(arr1[idx1], arr2[idx2])){
+          if (found) {
+            continue;
+          }
+          found = true;
+        }
+      }
+      if (found) {
+        found = false;
+      }
+      else {return false;}
+    }
+    return true;
   }
 }
