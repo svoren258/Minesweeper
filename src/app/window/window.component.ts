@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WindowService } from "../window.service";
 
 @Component({
   selector: 'app-window',
@@ -9,66 +10,27 @@ import { Component, OnInit } from '@angular/core';
 export class WindowComponent implements OnInit {
 
   //global variables declaration
-  minesCount = 10;
-  width = Array.from(new Array(8), (x,i) => i+1);
-  height = Array.from(new Array(8), (x,i) => i+1);
+  width = [];
+  height = [];
   shownButtons = [];
   cellArray = [];
   bombsArray = [];
   indexArray = [];
 
-  constructor() {
-
-  }
+  constructor(public windowService:WindowService) {}
 
   ngOnInit() {
-    this.placeBombs();
+    this.getState();
   }
 
-  placeBombs() {
-    let randomIdx;
-    for (let x = 1; x <= this.width.length; x++) {
-      for (let y = 1; y <= this.height.length; y++) {
-        const couple = [x, y];
-        this.cellArray.push(couple);
-      }
-    }
-
-    if (this.indexArray) {
-      this.indexArray = [];
-      this.bombsArray = [];
-    }
-
-    while (this.indexArray.length < this.minesCount) {
-      randomIdx = Math.floor(Math.random() * (this.height.length*this.width.length));
-      if (!this.contains(this.indexArray, randomIdx)) {
-        this.indexArray.push(randomIdx);
-        this.bombsArray.push(this.cellArray[randomIdx]);
-      }
-    }
-  }
-
-  placeBomb(x: number, y: number) {
-    const couple = [x, y];
-    for (let index = 0; index < this.bombsArray.length; index++) {
-      if (this.equals(this.bombsArray[index], couple)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  contains(arr: any, item: number) {
-    for (let idx = 0; idx < arr.length; idx++) {
-      if (arr[idx] === item) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  equals(arr1: any, arr2: any) {
-    return arr1[0] === arr2[0] && arr1[1] === arr2[1];
+  getState() {
+    this.windowService.placeBombs();
+    this.cellArray = this.windowService.getCellArray();
+    this.bombsArray = this.windowService.getBombsArray();
+    this.indexArray = this.windowService.getIndexArray();
+    this.width = this.windowService.getWindowWidth();
+    this.height = this.windowService.getWindowHeight();
+    this.shownButtons = this.windowService.getShownButtons();
   }
 }
 

@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {WindowService} from "../window.service";
 
 @Component({
   selector: 'app-button',
@@ -19,16 +20,9 @@ export class ButtonComponent implements OnInit {
   @Input() cellArray;
   @Input() shownButtons = [];
 
-  constructor() {
-  }
+  constructor(private windowService:WindowService) {}
 
-  ngOnInit() {
-    if (this.shownButtons.length > 0) {
-      for ( let idx = 0; idx < this.shownButtons.length; idx++) {
-        this.showCell(this.shownButtons[idx][0], this.shownButtons[idx][1]);
-      }
-    }
-  }
+  ngOnInit() {}
 
   onRightClick(event) {
     let target = event.target;
@@ -43,11 +37,9 @@ export class ButtonComponent implements OnInit {
     return false;
   }
 
-  onClick(event, x: number, y: number) {
-    let target = event.target;
-    let style = target.attributes.style;
-    let styleVal = style.nodeValue;
-    if (!styleVal.localeCompare('background: url("https://raw.githubusercontent.com/svoren258/Minesweeper/master/bombflagged.gif");')) {
+  onClick(x: number, y: number) {
+    let styleVal = document.getElementById(x.toString() + ',' + y.toString()).style.background;
+    if (!styleVal.localeCompare('url("https://raw.githubusercontent.com/svoren258/Minesweeper/master/bombflagged.gif")')) {
      return;
     }
 
@@ -62,7 +54,7 @@ export class ButtonComponent implements OnInit {
 
     let ret = this.showCell(x,y);
     this.setNum(ret,x,y);
-    this.evaluateGame();
+    this.windowService.evaluateGame();
   }
 
   setNum(ret,x,y) {
@@ -97,27 +89,13 @@ export class ButtonComponent implements OnInit {
     }
   }
 
-  evaluateGame() {
-    let newArray = [];
-    for(let idx = 0; idx < this.cellArray.length; idx++) {
-      if (!this.isBomb(this.cellArray[idx][0], this.cellArray[idx][1])) {
-        newArray.push(this.cellArray[idx]);
-      }
-    }
-
-    if (this.areEqualArrays(newArray, this.shownButtons)) {
-      alert('YOU WIN!');
-    }
-    return;
-  }
-
   showCell(x: number, y:number) {
     let couple = [x,y];
     let bombCounter = 0;
     for(let i = x-1; i <= x+1; i++){
       for(let j = y-1; j <= y+1; j++){
         if (i > 0 && j > 0 && i <= this.width && j <= this.height && (i != x || j != y)) {
-          if (this.isBomb(i,j)){
+          if (this.windowService.isBomb(i,j)){
             bombCounter++;
           }
         }
@@ -134,7 +112,7 @@ export class ButtonComponent implements OnInit {
   showCells(x: number, y: number) {
     let retVal;
     for(let i = x-1; i <= x+1; i++) {
-      for (let j = y - 1; j <= y + 1; j++) {
+      for (let j = y-1; j <= y+1; j++) {
         if (i > 0 && j > 0 && i <= this.width && j <= this.height && (i != x || j != y)) {
           let couple = [i,j];
           if(this.wasShown(i,j)) {
@@ -158,36 +136,7 @@ export class ButtonComponent implements OnInit {
     return false;
   }
 
-  isBomb(x: number, y: number) {
-    const couple = [x,y];
-    for (let idx = 0; idx < this.bombsArray.length; idx++) {
-      if (this.equals(this.bombsArray[idx],couple)){
-        return true;
-      }
-    }
-    return false;
-  }
-
   equals(arr1: any, arr2: any) {
     return arr1[0] === arr2[0] && arr1[1] === arr2[1];
-  }
-
-  areEqualArrays(arr1: any, arr2: any) {
-    let found = false;
-    for(let idx1 = 0; idx1 < arr1.length; idx1++) {
-      for(let idx2 = 0; idx2 < arr2.length; idx2++) {
-        if (this.equals(arr1[idx1], arr2[idx2])){
-          if (found) {
-            continue;
-          }
-          found = true;
-        }
-      }
-      if (found) {
-        found = false;
-      }
-      else {return false;}
-    }
-    return true;
   }
 }

@@ -2,7 +2,15 @@
   <table align="center" border="1">
     <tr *ngFor="let i of width">
       <td *ngFor="let j of height">
-        <app-button [width]="width.length" [height]="height.length" [bomb]="placeBomb(i,j)" [(shownButtons)]="shownButtons" [cellArray]="cellArray" [bombsArray]="bombsArray" [x]="i" [y]="j"></app-button>
+        <app-button [width]="width.length"
+                    [height]="height.length"
+                    [bomb]="windowService.placeBomb(i,j)"
+                    [(shownButtons)]="shownButtons"
+                    [cellArray]="cellArray"
+                    [bombsArray]="bombsArray"
+                    [x]="i"
+                    [y]="j">
+        </app-button>
       </td>
     </tr>
   </table>

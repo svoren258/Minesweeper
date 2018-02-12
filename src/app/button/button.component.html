@@ -1,1 +1,3 @@
-<input id="{{x}},{{y}}" value="" type="button" [ngStyle]="{'background': 'url(' + bgImg + ')'}" (contextmenu)="onRightClick($event)" (click)="onClick($event,x,y)">
+<input id="{{x}},{{y}}" value="" type="button"
+       [ngStyle]="{'background': 'url(' + bgImg + ')'}"
+       (contextmenu)="onRightClick($event)" (click)="onClick(x,y)">
