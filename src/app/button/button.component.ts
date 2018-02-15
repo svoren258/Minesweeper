@@ -1,3 +1,15 @@
+// Instead of commenting on separate things, here's a summary:
+// * There's an `assets` directory in `{{PROJECT_ROOT}}/src` -- no need to use external hosts for images, etc.
+// * Mutating the arrays in `WindowService`'s properties without the service's knowledge breaks encapsulation in a major and unsafe way.
+// * Directly mutating DOM should be avoided if possible. The data flow -- in informal, intuitive terms -- should be as follows:
+//   1. The view catches an event and triggers an event handler.
+//   2. The event handler changes the data model.
+//   3. Angular notices the data model's change and automatically re-renders the template with new data.
+// * Most components should be as "dumb" as possible and ideally only contain logic that deals with data visualization, *not* data
+//   manipulation or storage -- that's what services are for. Otherwise the app's source becomes a hell to maintain very quickly.
+// * JavaScript may not be as heavily armed as e.g. Python, but it's far from C -- when it comes to both language features and standard
+//   library. MDN is a great resource for that. Have a look at array methods in particular, mainly `map`, `filter`, `reduce`, `find`, `some`
+//   and `every` -- most of the for-loops in your code could be replaced by more readable functional-style constructs.
 import {Component, Input, OnInit} from '@angular/core';
 import {WindowService} from "../window.service";
 
