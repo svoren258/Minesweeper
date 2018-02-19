@@ -9,7 +9,8 @@ import { WindowService } from "../window.service";
 
 export class WindowComponent implements OnInit {
 
-  //global variables declaration
+  // The inferred types of the following 6 properties is `any[]`. Arrays of *what* do they hold? Please use type annotations to enhance the
+  // code's readability.
   width = [];
   height = [];
   shownButtons = [];
